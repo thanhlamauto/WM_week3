@@ -470,6 +470,22 @@ effective (0 hits, count 7) (`evidence/07_exercise3_own_data.txt`).
 RESULT: 21 passed, 0 failed
 ```
 
+## Admin UI (web interface)
+
+The same indexes can be explored in a browser while Solr is running:
+
+- http://localhost:8983/solr/ (node 1) and http://localhost:7574/solr/ (node 2)
+- http://localhost:8983/solr/#/~cloud — cluster graph: nodes, shards, replicas
+- http://localhost:8983/solr/#/films/query — Query screen; tick `facet`, set
+  `facet.field=genre_str` to see the same facet counts as in the curl output
+- http://localhost:8983/solr/#/mydocs/documents — add/delete documents
+  (JSON **array** or XML `<add>`/`<delete>`)
+- http://localhost:8983/solr/ui/ — new preview UI in Solr 10
+
+Click-by-click instructions for every exercise are in `README.md`
+("Interacting with the Solr Admin UI"). Tika itself has no web UI; it is a
+REST service (`curl http://localhost:9998/version`).
+
 ## Notes on Solr 10 changes (slides vs. current version)
 
 1. `bin/solr start` defaults to **SolrCloud**; `--user-managed` is the new

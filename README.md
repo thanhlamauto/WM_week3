@@ -103,6 +103,83 @@ bash queries/own_data.sh
 bash queries/verify.sh    # 21/21 checks pass on a complete run
 ```
 
+## Interacting with the Solr Admin UI (web interface)
+
+While Solr is running, both nodes serve a browser UI:
+
+- Node 1: **http://localhost:8983/solr/**
+- Node 2: **http://localhost:7574/solr/** (same cluster/state as node 1)
+- Solr 10 also ships a preview UI: http://localhost:8983/solr/ui/
+
+Main screens (left sidebar → pick a collection → tabs):
+
+| Screen | Direct URL | What you can do |
+|--------|-----------|-----------------|
+| **Query** | `/solr/#/<collection>/query` | run `q`, `fq`, `sort`, `fl`, `rows`; tick the `facet` checkbox and set `facet.field`; click **Execute Query** |
+| **Documents** | `/solr/#/<collection>/documents` | add documents (JSON / XML / CSV / Document Builder) and delete them; **Submit Document** commits immediately |
+| **Schema** | `/solr/#/<collection>/schema` | browse fields, field types, dynamic fields, copy fields |
+| **Overview** | `/solr/#/<collection>/collection-overview` | `numDocs`, `maxDoc`, shard/replica summary |
+| **Cloud** | `/solr/#/~cloud` | Graph / Tree / Dump of nodes, shards and replicas |
+| **Logging / Metrics** | `/solr/#/~logging`, `/solr/#/~metrics` | server log and OpenTelemetry metrics |
+
+### Exercise 0 — `bookstore`
+
+1. Open http://localhost:8983/solr/#/bookstore/query
+2. `q=*:*` → **Execute Query** → `"numFound": 8` in the JSON panel
+3. Try `q=title:solr` (1 hit), `q=category:search` (3 hits)
+4. `q=*:*` with `fq=category:web-mining` → 2 hits
+5. `fq=price:[20 TO 50]`, `sort=price asc`, `fl=id,title,price` → 3 hits, cheapest first
+6. **Schema** tab: inspect the field types (`category` = string, `price` = pfloat) and the `_text_` copy fields
+
+### Exercise 1 — `techproducts` + cluster topology
+
+1. **Cloud → Graph** (http://localhost:8983/solr/#/~cloud): two nodes (`8983`, `7574`),
+   `techproducts` with 2 shards × 2 replicas; click a replica to see its core/node
+2. Query screen for techproducts: `q=cat:electronics` → 12 hits;
+   `fq=price:[0 TO 100]`, `sort=price asc` → 16 hits
+3. **Overview** tab shows `numDocs = 48`
+4. Open node 2's UI (http://localhost:7574/solr/) — same collections and state
+
+### Exercise 2 — `films` + faceting in the UI
+
+1. Open http://localhost:8983/solr/#/films/query, `q=*:*` → 1100
+2. Tick the **facet** checkbox, set `facet.field=genre_str`, **Execute Query** →
+   the `facet_counts` section shows Drama 552, Comedy 389, Romance Film 270, …
+3. Add `facet.mincount=200` → only 4 buckets; `facet.limit=5` → top 5 genres
+4. `facet.field=directed_by_str` → most prolific directors
+5. **Schema** tab: `name` = text_general, `genre_str`/`directed_by_str` = strings
+   (with docValues — that is why faceting uses the `_str` fields), `initial_release_date` = pdates
+6. Range, pivot and JSON facets have no UI widgets → use the curl commands in `REPORT.md`
+7. The Query screen accepts URL parameters too, e.g.
+   http://localhost:8983/solr/#/films/query?q=*:*&facet=true&facet.field=genre_str
+
+### Exercise 3 — `mydocs`
+
+1. Query screen: `content:gazelle` → `sample.pdf`; `content:zeppelin` → `sample.html`
+   (proves text was extracted from the binary/markup files)
+2. **Documents** tab → Document Type = `JSON`, paste a **JSON array** (a single
+   object is interpreted as a JSON *command* and fails with
+   `Unknown command 'id'`):
+
+   ```json
+   [{"id":"ui-demo","title":"Added from Admin UI","review_status":"ui"}]
+   ```
+
+   → **Submit Document** → run `q=id:ui-demo` on the Query screen (1 hit).
+   Equivalent XML form: `<add><doc><field name="id">ui-demo</field>…</doc></add>`
+3. Delete in the same screen with Document Type = `XML`:
+
+   ```xml
+   <delete><id>ui-demo</id></delete>
+   ```
+
+   → **Submit Document** → `q=id:ui-demo` → 0 hits
+4. Tika has **no web UI** (it is a REST service): check `curl http://localhost:9998/version`,
+   see `evidence/06_tika.txt`
+
+The Admin UI is only a thin client over the same REST API used by the scripts:
+anything you do in the UI is visible to `curl`/`queries/*.sh` and vice versa.
+
 ## Stopping the services
 
 ```bash
