@@ -1,0 +1,8 @@
+Web mining is the application of data mining techniques to discover patterns from the World Wide Web.
+Web mining is usually divided into three categories: web content mining, web structure mining and
+web usage mining. Web content mining extracts information from the content of web pages, web
+structure mining analyses hyperlinks between pages, and web usage mining studies user browsing
+behaviour recorded in web server logs.
+
+Search engines such as Solr, Elasticsearch and Lucene are common building blocks for web mining
+pipelines because they provide fast retrieval over large text collections.

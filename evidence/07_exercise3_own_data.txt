@@ -1,0 +1,175 @@
+
+=== 1. External Tika server version ===
+Apache Tika 3.3.2
+
+=== 1b. Direct Tika extraction from the PDF (proves the Tika server itself works) ===
+The distinctive verification keyword for this PDF is: gazelle.                  
+
+=== 2. Create collection mydocs (2 shards x 2 replicas) ===
+Neither --zk-host or --solr-url parameters, nor ZK_HOST env var provided, so assuming solr url is http://localhost:8983.
+Neither --zk-host or --solr-url parameters, nor ZK_HOST env var provided, so assuming solr url is http://localhost:8983.
+WARN  - 2026-09-22 08:41:35.307; org.apache.solr.common.cloud.SolrZkClient; Using default ZkCredentialsInjector. ZkCredentialsInjector is not secure, it creates an empty list of credentials which leads to 'OPEN_ACL_UNSAFE' ACLs to Zookeeper nodes
+WARN  - 2026-09-22 08:41:35.308; org.apache.solr.common.cloud.SolrZkClient; Using default ZkACLProvider. DefaultZkACLProvider is not secure, it creates 'OPEN_ACL_UNSAFE' ACLs to Zookeeper nodes
+WARNING: Using _default configset. Data driven schema functionality is enabled by default, which is
+         NOT RECOMMENDED for production use.
+
+         To turn it off:
+            curl http://localhost:8983/solr/mydocs/config -d '{"set-user-property": {"update.autoCreateFields":"false"}}'
+         Or:
+            bin/solr config -c mydocs -s http://localhost:8983 --action set-user-property --property update.autoCreateFields --value false
+Created collection 'mydocs' with 2 shard(s), 2 replica(s) with config-set 'mydocs'
+
+=== 3. Enable the /update/extract handler pointing at the external Tika server ===
+{
+  "errors": "none"
+}
+
+=== 4. Verify the handler is registered ===
+{
+  "name": "/update/extract",
+  "class": "solr.extraction.ExtractingRequestHandler",
+  "tikaserver_url": "http://localhost:9998",
+  "defaults": {
+    "lowernames": "true",
+    "captureAttr": "true"
+  }
+}
+
+=== 5. Index the dataset in /Users/nguyenthanhlam/Documents/Default Project/web-mining-week3/data (txt, html, csv, pdf) through the extraction pipeline ===
+Posting files to [base] url http://localhost:8983/solr/mydocs/update...
+Entering auto mode. File endings considered are xml,json,jsonl,csv,pdf,doc,docx,ppt,pptx,xls,xlsx,odt,odp,ods,ott,otp,ots,rtf,htm,html,txt,log
+POSTing file ai.txt (text/plain) to [base]/extract
+POSTing file solr.txt (text/plain) to [base]/extract
+POSTing file webmining.txt (text/plain) to [base]/extract
+POSTing file sample.html (text/html) to [base]/extract
+POSTing file sample.csv (text/csv) to [base]
+POSTing file sample.pdf (application/pdf) to [base]/extract
+1 files indexed.
+COMMITting Solr index changes to http://localhost:8983/solr/mydocs/update...
+Time spent: 0:00:01.112
+
+=== 6. Indexed document count ===
+{
+  "numFound": 8
+}
+
+=== 7a. Match all ===
+{
+  "numFound": 8,
+  "docs": [
+    {
+      "id": "/Users/nguyenthanhlam/Documents/Default Project/web-mining-week3/data/solr.txt",
+      "content_type": [
+        "text/plain",
+        "text/plain; charset=ISO-8859-1"
+      ]
+    },
+    {
+      "id": "csv-001"
+    },
+    {
+      "id": "csv-002"
+    }
+  ]
+}
+
+=== 7b. Keyword search over extracted text  q=content:"information retrieval" ===
+{
+  "numFound": 1,
+  "docs": [
+    {
+      "id": "/Users/nguyenthanhlam/Documents/Default Project/web-mining-week3/data/sample.pdf"
+    }
+  ]
+}
+
+=== 7c. Filename query  q=id:*ai.txt ===
+{
+  "numFound": 1,
+  "docs": [
+    {
+      "id": "/Users/nguyenthanhlam/Documents/Default Project/web-mining-week3/data/ai.txt"
+    }
+  ]
+}
+
+=== 7d. PDF extraction proof  q=content:gazelle (word only exists inside sample.pdf) ===
+{
+  "numFound": 1,
+  "docs": [
+    {
+      "id": "/Users/nguyenthanhlam/Documents/Default Project/web-mining-week3/data/sample.pdf"
+    }
+  ]
+}
+
+=== 7e. HTML extraction proof  q=content:zeppelin (word only exists inside sample.html body) ===
+{
+  "numFound": 1,
+  "docs": [
+    {
+      "id": "/Users/nguyenthanhlam/Documents/Default Project/web-mining-week3/data/sample.html"
+    }
+  ]
+}
+
+=== 7f. Metadata query  q=dc_title:Apache AND author:Web ===
+{
+  "numFound": 1,
+  "docs": [
+    {
+      "id": "/Users/nguyenthanhlam/Documents/Default Project/web-mining-week3/data/sample.html",
+      "dc_title": [
+        "Apache Tika HTML extraction demo"
+      ],
+      "author": [
+        "Web Mining Week 03"
+      ]
+    }
+  ]
+}
+
+=== 8. UPDATE: add review_status field, then atomic-update the ai.txt document ===
+{
+  "errors": "none"
+}
+document id = /Users/nguyenthanhlam/Documents/Default Project/web-mining-week3/data/ai.txt
+-- before update: q=review_status:updated
+{
+  "numFound": 0,
+  "docs": []
+}
+{
+  "status": 0
+}
+-- after update: q=review_status:updated
+{
+  "numFound": 1,
+  "docs": [
+    {
+      "id": "/Users/nguyenthanhlam/Documents/Default Project/web-mining-week3/data/ai.txt",
+      "review_status": "updated"
+    }
+  ]
+}
+
+=== 9. DELETE: delete document csv-003 by id ===
+-- before delete: q=id:csv-003
+{
+  "numFound": 1,
+  "docs": []
+}
+{
+  "status": 0
+}
+-- after delete: q=id:csv-003
+{
+  "numFound": 0,
+  "docs": []
+}
+
+=== 10. Final count ===
+{
+  "numFound": 7,
+  "docs": []
+}

@@ -1,0 +1,7 @@
+Apache Solr is an open-source search server built on Apache Lucene. Solr provides distributed
+indexing, replication and load-balanced querying, together with faceted search, highlighting and
+rich document handling. Solr collections are managed through the Collections API and the
+SolrCloud mode uses Apache ZooKeeper to coordinate shards and replicas.
+
+Solr supports indexing structured JSON, XML and CSV documents, and it can extract text from
+binary formats such as PDF, HTML and Microsoft Office files using Apache Tika.

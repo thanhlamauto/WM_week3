@@ -1,0 +1,1065 @@
+
+=== 1. Create collection films (2 shards x 2 replicas, _default configset) ===
+Neither --zk-host or --solr-url parameters, nor ZK_HOST env var provided, so assuming solr url is http://localhost:8983.
+Neither --zk-host or --solr-url parameters, nor ZK_HOST env var provided, so assuming solr url is http://localhost:8983.
+WARN  - 2026-09-22 08:39:12.691; org.apache.solr.common.cloud.SolrZkClient; Using default ZkCredentialsInjector. ZkCredentialsInjector is not secure, it creates an empty list of credentials which leads to 'OPEN_ACL_UNSAFE' ACLs to Zookeeper nodes
+WARN  - 2026-09-22 08:39:12.693; org.apache.solr.common.cloud.SolrZkClient; Using default ZkACLProvider. DefaultZkACLProvider is not secure, it creates 'OPEN_ACL_UNSAFE' ACLs to Zookeeper nodes
+WARNING: Using _default configset. Data driven schema functionality is enabled by default, which is
+         NOT RECOMMENDED for production use.
+
+         To turn it off:
+            curl http://localhost:8983/solr/films/config -d '{"set-user-property": {"update.autoCreateFields":"false"}}'
+         Or:
+            bin/solr config -c films -s http://localhost:8983 --action set-user-property --property update.autoCreateFields --value false
+Created collection 'films' with 2 shard(s), 2 replica(s) with config-set 'films'
+
+=== 2. Schema: define 'name' field (so the first film '.45' is not guessed as float) ===
+{
+  "errors": "none"
+}
+
+=== 3. Schema: catch-all copy field * -> _text_ ===
+{
+  "errors": "none"
+}
+
+=== 4. Index example/films/films.json ===
+Posting files to [base] url http://localhost:8983/solr/films/update...
+Entering auto mode. File endings considered are xml,json,jsonl,csv,pdf,doc,docx,ppt,pptx,xls,xlsx,odt,odp,ods,ott,otp,ots,rtf,htm,html,txt,log
+POSTing file films.json (application/json) to [base]/json/docs
+1 files indexed.
+COMMITting Solr index changes to http://localhost:8983/solr/films/update...
+Time spent: 0:00:00.774
+
+=== 5. Indexed document count ===
+{
+  "numFound": 1100
+}
+
+=== 6. Normal search via catch-all field  q=comedy ===
+{
+  "numFound": 417,
+  "docs": [
+    {
+      "id": "/en/bringing_down_the_house",
+      "directed_by": [
+        "Adam Shankman"
+      ],
+      "name": "Bringing Down the House"
+    },
+    {
+      "id": "/en/funny_ha_ha",
+      "name": "Funny Ha Ha",
+      "directed_by": [
+        "Andrew Bujalski"
+      ]
+    },
+    {
+      "id": "/en/alfie_2004",
+      "directed_by": [
+        "Charles Shyer"
+      ],
+      "name": "Alfie"
+    }
+  ]
+}
+
+=== 7a. FACET: facet.field=genre_str ===
+{
+  "numFound": 1100,
+  "facet_counts": {
+    "facet_queries": {},
+    "facet_fields": {
+      "genre_str": [
+        "Drama",
+        552,
+        "Comedy",
+        389,
+        "Romance Film",
+        270,
+        "Thriller",
+        259,
+        "Action Film",
+        196,
+        "Crime Fiction",
+        170,
+        "World cinema",
+        167,
+        "Indie film",
+        144,
+        "Horror",
+        120,
+        "Adventure Film",
+        111,
+        "Family",
+        100,
+        "Romantic comedy",
+        93,
+        "Musical",
+        86,
+        "Fantasy",
+        82,
+        "Science Fiction",
+        82,
+        "Mystery",
+        78,
+        "Biographical film",
+        74,
+        "Documentary film",
+        73,
+        "Action/Adventure",
+        68,
+        "Musical Drama",
+        61,
+        "Animation",
+        59,
+        "Comedy-drama",
+        58,
+        "Sports",
+        58,
+        "Teen film",
+        58,
+        "Bollywood",
+        46,
+        "Psychological thriller",
+        46,
+        "War film",
+        46,
+        "Musical comedy",
+        40,
+        "Crime Thriller",
+        37,
+        "Black comedy",
+        33,
+        "Historical period drama",
+        32,
+        "Coming of age",
+        31,
+        "Tamil cinema",
+        28,
+        "Tollywood",
+        28,
+        "Film adaptation",
+        27,
+        "LGBT",
+        27,
+        "Parody",
+        26,
+        "Children's/Family",
+        25,
+        "Music",
+        24,
+        "Slasher",
+        24,
+        "Short Film",
+        22,
+        "Horror comedy",
+        21,
+        "Cult film",
+        19,
+        "Japanese Movies",
+        18,
+        "Action Thriller",
+        16,
+        "Culture &amp; Society",
+        16,
+        "Family Drama",
+        16,
+        "Martial Arts Film",
+        16,
+        "Political drama",
+        16,
+        "Supernatural",
+        16,
+        "Ensemble Film",
+        15,
+        "Buddy film",
+        14,
+        "Comedy of manners",
+        14,
+        "East Asian cinema",
+        14,
+        "Gay Themed",
+        14,
+        "Political cinema",
+        14,
+        "Historical fiction",
+        13,
+        "Mockumentary",
+        13,
+        "Road movie",
+        13,
+        "Suspense",
+        13,
+        "Gay",
+        12,
+        "Gay Interest",
+        12,
+        "Superhero movie",
+        12,
+        "Anime",
+        11,
+        "Satire",
+        11,
+        "Computer Animation",
+        10,
+        "Creature Film",
+        10,
+        "Family-Oriented Adventure",
+        10,
+        "Fantasy Comedy",
+        10,
+        "History",
+        10,
+        "Melodrama",
+        10,
+        "Sex comedy",
+        10,
+        "Crime Comedy",
+        9,
+        "Malayalam Cinema",
+        9,
+        "Western",
+        9,
+        "Zombie Film",
+        9,
+        "B movie",
+        8,
+        "Children's Fantasy",
+        8,
+        "Chinese Movies",
+        8,
+        "Concert film",
+        8,
+        "Docudrama",
+        8,
+        "Epic film",
+        8,
+        "Gangster Film",
+        8,
+        "Historical drama",
+        8,
+        "Music video",
+        8,
+        "Natural horror film",
+        8,
+        "Slapstick",
+        8,
+        "Stand-up comedy",
+        8,
+        "Art film",
+        7,
+        "Erotic thriller",
+        7,
+        "Experimental film",
+        7,
+        "Fantasy Adventure",
+        7,
+        "Monster",
+        7,
+        "Television film",
+        7,
+        "Costume drama",
+        6,
+        "Fan film",
+        6,
+        "Heist film",
+        6,
+        "Political thriller",
+        6,
+        "Workplace Comedy",
+        6,
+        "Avant-garde",
+        5
+      ]
+    },
+    "facet_ranges": {},
+    "facet_intervals": {},
+    "facet_heatmaps": {}
+  }
+}
+
+=== 7b. FACET: facet.limit=5 (top 5 genres) ===
+{
+  "numFound": 1100,
+  "facet_counts": {
+    "facet_queries": {},
+    "facet_fields": {
+      "genre_str": [
+        "Drama",
+        552,
+        "Comedy",
+        389,
+        "Romance Film",
+        270,
+        "Thriller",
+        259,
+        "Action Film",
+        196
+      ]
+    },
+    "facet_ranges": {},
+    "facet_intervals": {},
+    "facet_heatmaps": {}
+  }
+}
+
+=== 7c. FACET: facet.mincount=200 ===
+{
+  "numFound": 1100,
+  "facet_counts": {
+    "facet_queries": {},
+    "facet_fields": {
+      "genre_str": [
+        "Drama",
+        552,
+        "Comedy",
+        389,
+        "Romance Film",
+        270,
+        "Thriller",
+        259
+      ]
+    },
+    "facet_ranges": {},
+    "facet_intervals": {},
+    "facet_heatmaps": {}
+  }
+}
+
+=== 7d. FACET: facet.field=directed_by_str ===
+{
+  "numFound": 1100,
+  "facet_counts": {
+    "facet_queries": {},
+    "facet_fields": {
+      "directed_by_str": [
+        "Ridley Scott",
+        5,
+        "Steven Soderbergh",
+        5,
+        "Adam Shankman",
+        4,
+        "Michael Winterbottom",
+        4,
+        "Ryuhei Kitamura",
+        4
+      ]
+    },
+    "facet_ranges": {},
+    "facet_intervals": {},
+    "facet_heatmaps": {}
+  }
+}
+
+=== 8. RANGE FACET: initial_release_date per year ===
+{
+  "numFound": 1100,
+  "facet_counts": {
+    "facet_queries": {},
+    "facet_fields": {},
+    "facet_ranges": {
+      "initial_release_date": {
+        "counts": [
+          "2001-01-01T00:00:00Z",
+          94,
+          "2002-01-01T00:00:00Z",
+          112,
+          "2003-01-01T00:00:00Z",
+          125,
+          "2004-01-01T00:00:00Z",
+          166,
+          "2005-01-01T00:00:00Z",
+          167,
+          "2006-01-01T00:00:00Z",
+          173,
+          "2007-01-01T00:00:00Z",
+          45,
+          "2008-01-01T00:00:00Z",
+          13,
+          "2009-01-01T00:00:00Z",
+          5,
+          "2010-01-01T00:00:00Z",
+          1,
+          "2011-01-01T00:00:00Z",
+          0,
+          "2012-01-01T00:00:00Z",
+          0,
+          "2013-01-01T00:00:00Z",
+          2,
+          "2014-01-01T00:00:00Z",
+          0,
+          "2015-01-01T00:00:00Z",
+          1,
+          "2016-01-01T00:00:00Z",
+          0,
+          "2017-01-01T00:00:00Z",
+          0,
+          "2018-01-01T00:00:00Z",
+          0,
+          "2019-01-01T00:00:00Z",
+          0,
+          "2020-01-01T00:00:00Z",
+          0,
+          "2021-01-01T00:00:00Z",
+          0,
+          "2022-01-01T00:00:00Z",
+          0,
+          "2023-01-01T00:00:00Z",
+          0,
+          "2024-01-01T00:00:00Z",
+          0,
+          "2025-01-01T00:00:00Z",
+          0,
+          "2026-01-01T00:00:00Z",
+          0
+        ],
+        "gap": "+1YEAR",
+        "start": "2001-01-01T00:00:00Z",
+        "end": "2027-01-01T00:00:00Z"
+      }
+    },
+    "facet_intervals": {},
+    "facet_heatmaps": {}
+  }
+}
+
+=== 9. PIVOT FACET: genre_str,directed_by_str ===
+{
+  "numFound": 1100,
+  "facet_counts": {
+    "facet_queries": {},
+    "facet_fields": {},
+    "facet_ranges": {},
+    "facet_intervals": {},
+    "facet_heatmaps": {},
+    "facet_pivot": {
+      "genre_str,directed_by_str": [
+        {
+          "field": "genre_str",
+          "value": "Drama",
+          "count": 552,
+          "pivot": [
+            {
+              "field": "directed_by_str",
+              "value": "Ridley Scott",
+              "count": 5
+            },
+            {
+              "field": "directed_by_str",
+              "value": "Steven Soderbergh",
+              "count": 5
+            }
+          ]
+        },
+        {
+          "field": "genre_str",
+          "value": "Comedy",
+          "count": 389
+        },
+        {
+          "field": "genre_str",
+          "value": "Romance Film",
+          "count": 270
+        },
+        {
+          "field": "genre_str",
+          "value": "Thriller",
+          "count": 259
+        },
+        {
+          "field": "genre_str",
+          "value": "Action Film",
+          "count": 196
+        },
+        {
+          "field": "genre_str",
+          "value": "Crime Fiction",
+          "count": 170
+        },
+        {
+          "field": "genre_str",
+          "value": "World cinema",
+          "count": 167
+        },
+        {
+          "field": "genre_str",
+          "value": "Indie film",
+          "count": 144
+        },
+        {
+          "field": "genre_str",
+          "value": "Horror",
+          "count": 120
+        },
+        {
+          "field": "genre_str",
+          "value": "Adventure Film",
+          "count": 111
+        },
+        {
+          "field": "genre_str",
+          "value": "Family",
+          "count": 100
+        },
+        {
+          "field": "genre_str",
+          "value": "Romantic comedy",
+          "count": 93
+        },
+        {
+          "field": "genre_str",
+          "value": "Musical",
+          "count": 86
+        },
+        {
+          "field": "genre_str",
+          "value": "Fantasy",
+          "count": 82
+        },
+        {
+          "field": "genre_str",
+          "value": "Science Fiction",
+          "count": 82
+        },
+        {
+          "field": "genre_str",
+          "value": "Mystery",
+          "count": 78
+        },
+        {
+          "field": "genre_str",
+          "value": "Biographical film",
+          "count": 74
+        },
+        {
+          "field": "genre_str",
+          "value": "Documentary film",
+          "count": 73
+        },
+        {
+          "field": "genre_str",
+          "value": "Action/Adventure",
+          "count": 68
+        },
+        {
+          "field": "genre_str",
+          "value": "Musical Drama",
+          "count": 61
+        },
+        {
+          "field": "genre_str",
+          "value": "Animation",
+          "count": 59
+        },
+        {
+          "field": "genre_str",
+          "value": "Comedy-drama",
+          "count": 58
+        },
+        {
+          "field": "genre_str",
+          "value": "Sports",
+          "count": 58
+        },
+        {
+          "field": "genre_str",
+          "value": "Teen film",
+          "count": 58
+        },
+        {
+          "field": "genre_str",
+          "value": "Bollywood",
+          "count": 46
+        },
+        {
+          "field": "genre_str",
+          "value": "Psychological thriller",
+          "count": 46
+        },
+        {
+          "field": "genre_str",
+          "value": "War film",
+          "count": 46
+        },
+        {
+          "field": "genre_str",
+          "value": "Musical comedy",
+          "count": 40
+        },
+        {
+          "field": "genre_str",
+          "value": "Crime Thriller",
+          "count": 37
+        },
+        {
+          "field": "genre_str",
+          "value": "Black comedy",
+          "count": 33
+        },
+        {
+          "field": "genre_str",
+          "value": "Historical period drama",
+          "count": 32
+        },
+        {
+          "field": "genre_str",
+          "value": "Coming of age",
+          "count": 31
+        },
+        {
+          "field": "genre_str",
+          "value": "Tamil cinema",
+          "count": 28
+        },
+        {
+          "field": "genre_str",
+          "value": "Tollywood",
+          "count": 28
+        },
+        {
+          "field": "genre_str",
+          "value": "Film adaptation",
+          "count": 27
+        },
+        {
+          "field": "genre_str",
+          "value": "LGBT",
+          "count": 27
+        },
+        {
+          "field": "genre_str",
+          "value": "Parody",
+          "count": 26
+        },
+        {
+          "field": "genre_str",
+          "value": "Children's/Family",
+          "count": 25
+        },
+        {
+          "field": "genre_str",
+          "value": "Music",
+          "count": 24
+        },
+        {
+          "field": "genre_str",
+          "value": "Slasher",
+          "count": 24
+        },
+        {
+          "field": "genre_str",
+          "value": "Short Film",
+          "count": 22
+        },
+        {
+          "field": "genre_str",
+          "value": "Horror comedy",
+          "count": 21
+        },
+        {
+          "field": "genre_str",
+          "value": "Cult film",
+          "count": 19
+        },
+        {
+          "field": "genre_str",
+          "value": "Japanese Movies",
+          "count": 18
+        },
+        {
+          "field": "genre_str",
+          "value": "Action Thriller",
+          "count": 16
+        },
+        {
+          "field": "genre_str",
+          "value": "Culture &amp; Society",
+          "count": 16
+        },
+        {
+          "field": "genre_str",
+          "value": "Family Drama",
+          "count": 16
+        },
+        {
+          "field": "genre_str",
+          "value": "Martial Arts Film",
+          "count": 16
+        },
+        {
+          "field": "genre_str",
+          "value": "Political drama",
+          "count": 16
+        },
+        {
+          "field": "genre_str",
+          "value": "Supernatural",
+          "count": 16
+        },
+        {
+          "field": "genre_str",
+          "value": "Ensemble Film",
+          "count": 15
+        },
+        {
+          "field": "genre_str",
+          "value": "Buddy film",
+          "count": 14
+        },
+        {
+          "field": "genre_str",
+          "value": "Comedy of manners",
+          "count": 14
+        },
+        {
+          "field": "genre_str",
+          "value": "East Asian cinema",
+          "count": 14
+        },
+        {
+          "field": "genre_str",
+          "value": "Gay Themed",
+          "count": 14
+        },
+        {
+          "field": "genre_str",
+          "value": "Political cinema",
+          "count": 14
+        },
+        {
+          "field": "genre_str",
+          "value": "Historical fiction",
+          "count": 13
+        },
+        {
+          "field": "genre_str",
+          "value": "Mockumentary",
+          "count": 13
+        },
+        {
+          "field": "genre_str",
+          "value": "Road movie",
+          "count": 13
+        },
+        {
+          "field": "genre_str",
+          "value": "Suspense",
+          "count": 13
+        },
+        {
+          "field": "genre_str",
+          "value": "Gay",
+          "count": 12
+        },
+        {
+          "field": "genre_str",
+          "value": "Gay Interest",
+          "count": 12
+        },
+        {
+          "field": "genre_str",
+          "value": "Superhero movie",
+          "count": 12
+        },
+        {
+          "field": "genre_str",
+          "value": "Anime",
+          "count": 11
+        },
+        {
+          "field": "genre_str",
+          "value": "Satire",
+          "count": 11
+        },
+        {
+          "field": "genre_str",
+          "value": "Computer Animation",
+          "count": 10
+        },
+        {
+          "field": "genre_str",
+          "value": "Creature Film",
+          "count": 10
+        },
+        {
+          "field": "genre_str",
+          "value": "Family-Oriented Adventure",
+          "count": 10
+        },
+        {
+          "field": "genre_str",
+          "value": "Fantasy Comedy",
+          "count": 10
+        },
+        {
+          "field": "genre_str",
+          "value": "History",
+          "count": 10
+        },
+        {
+          "field": "genre_str",
+          "value": "Melodrama",
+          "count": 10
+        },
+        {
+          "field": "genre_str",
+          "value": "Sex comedy",
+          "count": 10
+        },
+        {
+          "field": "genre_str",
+          "value": "Crime Comedy",
+          "count": 9
+        },
+        {
+          "field": "genre_str",
+          "value": "Malayalam Cinema",
+          "count": 9
+        },
+        {
+          "field": "genre_str",
+          "value": "Western",
+          "count": 9
+        },
+        {
+          "field": "genre_str",
+          "value": "Zombie Film",
+          "count": 9
+        },
+        {
+          "field": "genre_str",
+          "value": "B movie",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Children's Fantasy",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Chinese Movies",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Concert film",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Docudrama",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Epic film",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Gangster Film",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Historical drama",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Music video",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Natural horror film",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Slapstick",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Stand-up comedy",
+          "count": 8
+        },
+        {
+          "field": "genre_str",
+          "value": "Art film",
+          "count": 7
+        },
+        {
+          "field": "genre_str",
+          "value": "Erotic thriller",
+          "count": 7
+        },
+        {
+          "field": "genre_str",
+          "value": "Experimental film",
+          "count": 7
+        },
+        {
+          "field": "genre_str",
+          "value": "Fantasy Adventure",
+          "count": 7
+        },
+        {
+          "field": "genre_str",
+          "value": "Monster",
+          "count": 7
+        },
+        {
+          "field": "genre_str",
+          "value": "Television film",
+          "count": 7
+        },
+        {
+          "field": "genre_str",
+          "value": "Costume drama",
+          "count": 6
+        },
+        {
+          "field": "genre_str",
+          "value": "Fan film",
+          "count": 6
+        },
+        {
+          "field": "genre_str",
+          "value": "Heist film",
+          "count": 6
+        },
+        {
+          "field": "genre_str",
+          "value": "Political thriller",
+          "count": 6
+        },
+        {
+          "field": "genre_str",
+          "value": "Workplace Comedy",
+          "count": 6
+        },
+        {
+          "field": "genre_str",
+          "value": "Avant-garde",
+          "count": 5
+        }
+      ]
+    }
+  }
+}
+
+=== 10. JSON Facet API (additional faceting capability) ===
+{
+  "numFound": 1100,
+  "facets": {
+    "count": 1100,
+    "top_genres": {
+      "buckets": [
+        {
+          "val": "Drama",
+          "count": 552,
+          "top_directors": {
+            "buckets": [
+              {
+                "val": "Michael Winterbottom",
+                "count": 4
+              },
+              {
+                "val": "Steven Soderbergh",
+                "count": 4
+              },
+              {
+                "val": "Kim Ki-duk",
+                "count": 3
+              }
+            ]
+          }
+        },
+        {
+          "val": "Comedy",
+          "count": 389,
+          "top_directors": {
+            "buckets": [
+              {
+                "val": "Paul Weitz",
+                "count": 3
+              },
+              {
+                "val": "Adam Shankman",
+                "count": 2
+              },
+              {
+                "val": "Barry Levinson",
+                "count": 2
+              }
+            ]
+          }
+        },
+        {
+          "val": "Romance Film",
+          "count": 270,
+          "top_directors": {
+            "buckets": [
+              {
+                "val": "Raj Kanwar",
+                "count": 3
+              },
+              {
+                "val": "Steven Soderbergh",
+                "count": 3
+              },
+              {
+                "val": "Vikram Bhatt",
+                "count": 3
+              }
+            ]
+          }
+        },
+        {
+          "val": "Thriller",
+          "count": 259,
+          "top_directors": {
+            "buckets": [
+              {
+                "val": "Uwe Boll",
+                "count": 3
+              },
+              {
+                "val": "Abbas Burmawalla",
+                "count": 2
+              },
+              {
+                "val": "David Cronenberg",
+                "count": 2
+              }
+            ]
+          }
+        },
+        {
+          "val": "Action Film",
+          "count": 196,
+          "top_directors": {
+            "buckets": [
+              {
+                "val": "Ridley Scott",
+                "count": 3
+              },
+              {
+                "val": "Dharani",
+                "count": 2
+              },
+              {
+                "val": "John Moore",
+                "count": 2
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

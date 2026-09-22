@@ -1,0 +1,20 @@
+### Tika server process
+19223 java -jar /Users/nguyenthanhlam/solr-lab/tika-server-standard-3.3.2.jar --port 9998
+
+### Tika version endpoint (http://localhost:9998/version)
+Apache Tika 3.3.2
+
+### Direct Tika extraction - PDF (PUT /tika with Content-Type: application/pdf)
+The distinctive verification keyword for this PDF is: gazelle.                  
+
+### Direct Tika extraction - HTML (Content-Type: text/html)
+  Document extraction with Apache Tika
+  markup documents. The extraction pipeline strips HTML tags and keeps the visible text.
+  A distinctive keyword for verification is zeppelin. If a Solr query for
+
+### Tika metadata for the PDF
+{
+  "content_type": "application/pdf",
+  "parsed_by": null,
+  "pages": "1"
+}

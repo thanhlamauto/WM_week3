@@ -1,0 +1,43 @@
+### stop all
+Sending stop command to Solr running on port 8983 ... waiting up to 180 seconds to allow Jetty process 15203 to stop gracefully.
+ [|]   [/]   [-]   [\]      
+### prepare node homes
+node homes ready
+
+### start node1 (port 8983, embedded ZooKeeper 9983)
+Waiting up to 180 seconds to see Solr running on port 8983 [|]   [/]   [-]   [\]   [|]  
+Started Solr server on port 8983 (pid=18222). Happy searching!
+
+    
+### start node2 (port 7574, joins ZK 9983)
+Waiting up to 180 seconds to see Solr running on port 7574 [|]   [/]   [-]   [\]   [|]  
+Started Solr server on port 7574 (pid=18405). Happy searching!
+
+    
+### status
+
+Solr process 18222 running on port 8983
+{
+  "solr_home":"/Users/nguyenthanhlam/solr-lab/cloud/node1/solr",
+  "version":"10.0.0 6c6c48a6f78486130682ea9c1f7a2723af5a87be - anshum - 2026-02-12 16:07:59",
+  "startTime":"Tue Sep 22 08:34:03 ICT 2026",
+  "uptime":"0 days, 0 hours, 0 minutes, 14 seconds",
+  "memory":"225.9 MB (%44.1) of 512 MB",
+  "cloud":{
+    "ZooKeeper":"127.0.0.1:9983",
+    "liveNodes":"2",
+    "collections":"0"}}
+
+
+Solr process 18405 running on port 7574
+{
+  "solr_home":"/Users/nguyenthanhlam/solr-lab/cloud/node2/solr",
+  "version":"10.0.0 6c6c48a6f78486130682ea9c1f7a2723af5a87be - anshum - 2026-02-12 16:07:59",
+  "startTime":"Tue Sep 22 08:34:10 ICT 2026",
+  "uptime":"0 days, 0 hours, 0 minutes, 6 seconds",
+  "memory":"202.1 MB (%39.5) of 512 MB",
+  "cloud":{
+    "ZooKeeper":"localhost:9983",
+    "liveNodes":"2",
+    "collections":"0"}}
+

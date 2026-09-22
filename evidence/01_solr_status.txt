@@ -1,0 +1,33 @@
+### bin/solr status
+
+Solr process 15203 running on port 8983
+{
+  "solr_home":"/Users/nguyenthanhlam/solr-lab/solr-10.0.0/server/solr",
+  "version":"10.0.0 6c6c48a6f78486130682ea9c1f7a2723af5a87be - anshum - 2026-02-12 16:07:59",
+  "startTime":"Tue Sep 22 08:31:00 ICT 2026",
+  "uptime":"0 days, 0 hours, 2 minutes, 25 seconds",
+  "memory":"289.1 MB (%56.5) of 512 MB",
+  "cloud":{
+    "ZooKeeper":"127.0.0.1:9983",
+    "liveNodes":"1",
+    "collections":"1"}}
+
+
+### HTTP API reachability
+GET /solr/admin/info/system -> HTTP 200
+{
+  "solr": "10.0.0",
+  "java": "21.0.12.1 21.0.12.1",
+  "cloud": "Mac OS X"
+}
+
+### collection list
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 0
+  },
+  "collections": [
+    "bookstore"
+  ]
+}

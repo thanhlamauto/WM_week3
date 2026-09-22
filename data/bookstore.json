@@ -1,0 +1,66 @@
+[
+  {
+    "id": "bk-001",
+    "title": "Introduction to Information Retrieval",
+    "category": "search",
+    "author": "Christopher Manning",
+    "price": 45.5,
+    "description": "Classic textbook on information retrieval, covering inverted indexes, ranking and evaluation of search engines."
+  },
+  {
+    "id": "bk-002",
+    "title": "Search Engines: Information Retrieval in Practice",
+    "category": "search",
+    "author": "Bruce Croft",
+    "price": 62.0,
+    "description": "A practical guide to building search engines, including crawling, indexing and query processing."
+  },
+  {
+    "id": "bk-003",
+    "title": "Apache Solr: A Practical Approach to Enterprise Search",
+    "category": "search",
+    "author": "Dikshant Shahi",
+    "price": 39.99,
+    "description": "Hands-on guide to Apache Solr covering schema design, indexing and faceted search."
+  },
+  {
+    "id": "bk-004",
+    "title": "Mining the Web: Discovering Knowledge from Hypertext Data",
+    "category": "web-mining",
+    "author": "Soumen Chakrabarti",
+    "price": 58.75,
+    "description": "Foundations of web mining, hyperlink analysis and web structure analysis."
+  },
+  {
+    "id": "bk-005",
+    "title": "Web Data Mining: Exploring Hyperlinks, Contents and Usage Data",
+    "category": "web-mining",
+    "author": "Bing Liu",
+    "price": 51.2,
+    "description": "Comprehensive introduction to web content mining, web structure mining and web usage mining."
+  },
+  {
+    "id": "bk-006",
+    "title": "Speech and Language Processing",
+    "category": "nlp",
+    "author": "Daniel Jurafsky",
+    "price": 72.0,
+    "description": "Widely used textbook on natural language processing, including text classification and information extraction."
+  },
+  {
+    "id": "bk-007",
+    "title": "Taming Text: How to Find, Organize and Manipulate It",
+    "category": "nlp",
+    "author": "Grant Ingersoll",
+    "price": 35.0,
+    "description": "Practical techniques for search, named entity recognition and text analytics using open source tools such as Lucene and Solr."
+  },
+  {
+    "id": "bk-008",
+    "title": "Database Systems: The Complete Book",
+    "category": "databases",
+    "author": "Hector Garcia-Molina",
+    "price": 80.0,
+    "description": "Core database theory including storage, indexing, query processing and transactions."
+  }
+]

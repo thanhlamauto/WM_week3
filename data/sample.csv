@@ -1,0 +1,4 @@
+id,title,category,author,price
+csv-001,Structured Data with CSV,data-engineering,Alice Nguyen,19.99
+csv-002,CSV Ingestion Patterns,data-engineering,Bob Tran,24.50
+csv-003,Metadata Extraction,metadata,Carol Le,15.00

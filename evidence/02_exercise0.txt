@@ -1,0 +1,188 @@
+
+=== 1. Solr status ===
+{
+  "solr": "10.0.0",
+  "java": "21.0.12.1 21.0.12.1",
+  "os": "Mac OS X"
+}
+
+=== 2. Create collection bookstore (idempotent) ===
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 754
+  },
+  "success": {
+    "localhost:7574_solr": {
+      "responseHeader": {
+        "status": 0,
+        "QTime": 255
+      },
+      "core": "bookstore_shard1_replica_n1"
+    }
+  },
+  "warning": "Using _default configset. Data driven schema functionality is enabled by default, which is NOT RECOMMENDED for production use. To turn it off: curl http://{host:port}/solr/bookstore/config -d '{\"set-user-property\": {\"update.autoCreateFields\":\"false\"}}'"
+}
+
+=== 3. Define schema for bookstore ===
+{
+  "errors": "none"
+}
+
+=== 4. Index documents from /Users/nguyenthanhlam/Documents/Default Project/web-mining-week3/data/bookstore.json ===
+{
+  "adds": 0,
+  "errors": "none"
+}
+
+=== 5. Commit ===
+{
+  "status": 0
+}
+
+=== 6a. Match all documents  q=*:* ===
+{
+  "numFound": 8,
+  "docs": [
+    {
+      "id": "bk-001",
+      "title": "Introduction to Information Retrieval",
+      "category": "search",
+      "author": "Christopher Manning",
+      "price": 45.5
+    },
+    {
+      "id": "bk-002",
+      "title": "Search Engines: Information Retrieval in Practice",
+      "category": "search",
+      "author": "Bruce Croft",
+      "price": 62.0
+    },
+    {
+      "id": "bk-003",
+      "title": "Apache Solr: A Practical Approach to Enterprise Search",
+      "category": "search",
+      "author": "Dikshant Shahi",
+      "price": 39.99
+    }
+  ]
+}
+
+=== 6b. Text field search  q=title:solr ===
+{
+  "numFound": 1,
+  "docs": [
+    {
+      "id": "bk-003",
+      "title": "Apache Solr: A Practical Approach to Enterprise Search",
+      "category": "search",
+      "author": "Dikshant Shahi",
+      "price": 39.99,
+      "description": "Hands-on guide to Apache Solr covering schema design, indexing and faceted search."
+    }
+  ]
+}
+
+=== 6c. Exact field search  q=category:search ===
+{
+  "numFound": 3,
+  "docs": [
+    {
+      "id": "bk-001",
+      "title": "Introduction to Information Retrieval",
+      "category": "search"
+    },
+    {
+      "id": "bk-002",
+      "title": "Search Engines: Information Retrieval in Practice",
+      "category": "search"
+    },
+    {
+      "id": "bk-003",
+      "title": "Apache Solr: A Practical Approach to Enterprise Search",
+      "category": "search"
+    }
+  ]
+}
+
+=== 6d. Filtered query  q=*:*&fq=category:web-mining ===
+{
+  "numFound": 2,
+  "docs": [
+    {
+      "id": "bk-004",
+      "title": "Mining the Web: Discovering Knowledge from Hypertext Data",
+      "category": "web-mining"
+    },
+    {
+      "id": "bk-005",
+      "title": "Web Data Mining: Exploring Hyperlinks, Contents and Usage Data",
+      "category": "web-mining"
+    }
+  ]
+}
+
+=== 6e. Multiple conditions  q=title:web AND category:web-mining ===
+{
+  "numFound": 2,
+  "docs": [
+    {
+      "id": "bk-004",
+      "title": "Mining the Web: Discovering Knowledge from Hypertext Data",
+      "category": "web-mining"
+    },
+    {
+      "id": "bk-005",
+      "title": "Web Data Mining: Exploring Hyperlinks, Contents and Usage Data",
+      "category": "web-mining"
+    }
+  ]
+}
+
+=== 6f. Phrase search  q=description:"information retrieval" ===
+{
+  "numFound": 1,
+  "docs": [
+    {
+      "id": "bk-001",
+      "title": "Introduction to Information Retrieval"
+    }
+  ]
+}
+
+=== 6g. Range filter + sort + field list  fq=price:[20 TO 50]&sort=price asc ===
+{
+  "numFound": 3,
+  "docs": [
+    {
+      "id": "bk-007",
+      "title": "Taming Text: How to Find, Organize and Manipulate It",
+      "price": 35.0
+    },
+    {
+      "id": "bk-003",
+      "title": "Apache Solr: A Practical Approach to Enterprise Search",
+      "price": 39.99
+    },
+    {
+      "id": "bk-001",
+      "title": "Introduction to Information Retrieval",
+      "price": 45.5
+    }
+  ]
+}
+
+=== 6h. Catch-all copy field  q=_text_:solr ===
+{
+  "numFound": 2,
+  "docs": [
+    {
+      "id": "bk-003",
+      "title": "Apache Solr: A Practical Approach to Enterprise Search"
+    },
+    {
+      "id": "bk-007",
+      "title": "Taming Text: How to Find, Organize and Manipulate It"
+    }
+  ]
+}

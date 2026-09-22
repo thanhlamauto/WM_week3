@@ -1,0 +1,44 @@
+=== Web Mining Week 03 - environment ===
+
+## OS / architecture
+ProductName:		macOS
+ProductVersion:		26.1
+BuildVersion:		25B78
+arm64
+
+## Java
+openjdk version "21.0.12.1" 2026-08-18
+OpenJDK Runtime Environment Homebrew (build 21.0.12.1)
+OpenJDK 64-Bit Server VM Homebrew (build 21.0.12.1, mixed mode, sharing)
+
+## Solr
+Solr version is: 10.0.0
+
+## Tika
+Apache Tika 3.3.2
+
+## Listening ports (Solr nodes, ZK, Tika)
+java 19225 127.0.0.1:9998
+java 19950 127.0.0.1:8983
+java 19950 127.0.0.1:9983
+java 20135 127.0.0.1:7574
+
+## Cluster status
+{
+  "live_nodes": [
+    "localhost:8983_solr",
+    "localhost:7574_solr"
+  ],
+  "collections": [
+    "bookstore",
+    "films",
+    "mydocs",
+    "techproducts"
+  ]
+}
+
+## Document counts
+bookstore      8
+techproducts   48
+films          1100
+mydocs         7

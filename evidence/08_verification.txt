@@ -1,0 +1,25 @@
+== Web Mining Week 03 - final verification ==
+
+[PASS] Java >= 21                                    yes
+[PASS] Solr HTTP API reachable                       200
+[PASS] Two-node SolrCloud cluster alive              2
+[PASS] Collections present                           bookstore,films,mydocs,techproducts
+[PASS] Exercise 0: bookstore documents               8
+[PASS] Exercise 0: category:search                   3
+[PASS] Exercise 0: fq=category:web-mining            2
+[PASS] Exercise 1: techproducts documents            48
+[PASS] Exercise 1: cat:electronics                   12
+[PASS] Exercise 1: +electronics +music               1
+[PASS] Exercise 1: replicas active (2 shards x 2)    4/4
+[PASS] Exercise 2: films documents                   1100
+[PASS] Exercise 2: q=comedy                          417
+[PASS] Exercise 2: facet genre_str Drama count       552
+[PASS] Exercise 3: Tika version                      Apache Tika 3.3.2
+[PASS] Exercise 3: mydocs documents (after delete)   7
+[PASS] Exercise 3: PDF text searchable content:gazelle 1
+[PASS] Exercise 3: HTML text searchable content:zeppelin 1
+[PASS] Exercise 3: update visible review_status:updated 1
+[PASS] Exercise 3: deleted doc gone id:csv-003       0
+[PASS] Exercise 3: extraction handler registered     solr.extraction.ExtractingRequestHandler
+
+RESULT: 21 passed, 0 failed

@@ -1,0 +1,11 @@
+Apache Solr PDF extraction test.
+
+This PDF document was generated for the Web Mining Week 03 laboratory.
+
+It verifies that Apache Tika can extract text from the PDF binary format and that
+Apache Solr can index the extracted text through the extraction handler.
+
+The distinctive verification keyword for this PDF is: gazelle.
+
+Information retrieval systems such as Solr rely on text extraction pipelines to make
+binary documents searchable. Tika performs the extraction; Solr stores the result.
